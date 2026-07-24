@@ -1,79 +1,67 @@
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QFont
 from PySide6.QtWidgets import (
     QWidget,
     QLabel,
     QVBoxLayout,
-    QHBoxLayout,
-    QFrame,
+    QGridLayout,
 )
+
+from PySide6.QtGui import QFont
+
+from ui.widgets.kpi_card import KPICard
 
 
 class Dashboard(QWidget):
+
     def __init__(self):
         super().__init__()
 
         self.build_ui()
 
     def build_ui(self):
-        main = QVBoxLayout(self)
+
+        layout = QVBoxLayout(self)
 
         title = QLabel("Dashboard")
-        title.setFont(QFont("Segoe UI", 22, QFont.Bold))
 
-        main.addWidget(title)
+        title.setFont(QFont("Segoe UI", 24, QFont.Bold))
 
-        cards = QHBoxLayout()
+        layout.addWidget(title)
 
-        cards.addWidget(self.create_card("Employees", "0"))
-        cards.addWidget(self.create_card("Overtime", "0 Hrs"))
-        cards.addWidget(self.create_card("Leave", "0"))
-        cards.addWidget(self.create_card("Attendance", "0%"))
+        grid = QGridLayout()
 
-        main.addLayout(cards)
-
-        welcome = QLabel(
-            "Welcome to Workday Chronometric Professional\n\n"
-            "This dashboard will display analytics, charts, KPIs,\n"
-            "attendance trends, overtime summaries, and reports."
+        self.totalEmployees = KPICard(
+            "Employees",
+            0,
+            "#3B82F6"
         )
 
-        welcome.setAlignment(Qt.AlignCenter)
-        welcome.setStyleSheet("font-size:16px;")
+        self.totalOT = KPICard(
+            "Overtime",
+            "0 hrs",
+            "#10B981"
+        )
 
-        main.addStretch()
-        main.addWidget(welcome)
-        main.addStretch()
+        self.totalLeave = KPICard(
+            "Leave",
+            0,
+            "#F59E0B"
+        )
 
-    def create_card(self, title, value):
-        frame = QFrame()
+        self.attendance = KPICard(
+            "Attendance",
+            "0%",
+            "#EF4444"
+        )
 
-        frame.setMinimumHeight(120)
+        grid.addWidget(self.totalEmployees, 0, 0)
+        grid.addWidget(self.totalOT, 0, 1)
+        grid.addWidget(self.totalLeave, 1, 0)
+        grid.addWidget(self.attendance, 1, 1)
 
-        frame.setStyleSheet("""
-        QFrame{
-            background:white;
-            border:1px solid #dcdcdc;
-            border-radius:12px;
-        }
-        """)
-
-        layout = QVBoxLayout(frame)
-
-        lblTitle = QLabel(title)
-        lblTitle.setAlignment(Qt.AlignCenter)
-        lblTitle.setFont(QFont("Segoe UI", 11))
-
-        lblValue = QLabel(value)
-        lblValue.setAlignment(Qt.AlignCenter)
-        lblValue.setFont(QFont("Segoe UI", 24, QFont.Bold))
+        layout.addLayout(grid)
 
         layout.addStretch()
-        layout.addWidget(lblTitle)
-        layout.addWidget(lblValue)
-        layout.addStretch()
-
-        return frame
 
     def refresh(self):
-        print("Dashboard refreshed.")
+
+        print("Dashboard Refreshed")
