@@ -13,8 +13,12 @@ def main():
     app.setApplicationVersion("12.0 Enterprise")
     app.setOrganizationName("Vikrant Ambani")
 
-    launcher = Launcher()
-    launcher.show()
+    from core.theme import load_theme
+
+app.setStyleSheet(load_theme())
+
+launcher = Launcher()
+launcher.show()
 
     sys.exit(app.exec())
 
