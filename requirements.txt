@@ -25,3 +25,4 @@ python-dateutil==2.9.0
 watchdog==6.0.0
 
 orjson==3.11.3
+PySide6-Fluent-Widgets
